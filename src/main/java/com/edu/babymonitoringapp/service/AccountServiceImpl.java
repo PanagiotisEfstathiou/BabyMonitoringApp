@@ -49,4 +49,21 @@ public class AccountServiceImpl implements AccountService{
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
+
+    @Override
+    public boolean login(AccountDto accountDto) {
+        Optional<Account> account = accountRepository.findByUsername(accountDto.getUsername());
+        if (account.isPresent()) {
+            Account account1 = account.get();
+            if (account1.getPassword().equals(accountDto.getPassword())) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

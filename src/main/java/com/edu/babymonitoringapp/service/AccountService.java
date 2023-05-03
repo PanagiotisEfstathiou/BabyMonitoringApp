@@ -14,4 +14,5 @@ public interface AccountService {
     Account updateAccount(Long id,AccountDto accountDto);
     void deleteAccount(Long id);
 
+    boolean login(AccountDto accountDto);
 }
