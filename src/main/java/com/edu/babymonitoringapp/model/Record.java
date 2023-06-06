@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class Record {
 
     private double duration;
     private double ml;
-    private Date date;
+    private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;

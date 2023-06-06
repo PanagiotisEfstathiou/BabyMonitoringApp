@@ -1,33 +1,28 @@
 package com.edu.babymonitoringapp.controller;
 
 import com.edu.babymonitoringapp.dto.AccountDto;
+import com.edu.babymonitoringapp.dto.RecordDto;
 import com.edu.babymonitoringapp.service.AccountService;
 import com.edu.babymonitoringapp.service.RecordService;
-import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import java.net.URI;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-//
-//@XmlAccessorType(XmlAccessType.NONE)
-//@XmlRootElement(name = "RestResource")
+
 @Path("/rest")
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 public class RestResource {
 
     @Autowired
     private AccountService accountService;
-//    @Autowired
-//    private RecordService recordService;
+    @Autowired
+    private RecordService recordService;
 
     @PermitAll()
     @POST
@@ -77,8 +72,30 @@ public class RestResource {
     @PermitAll
     @GET
     @Path("/getAccountById/{id}")
+    @Produces("application/json")
     public Response getAccountById(@PathParam("id") Long id) {
-        return Response.ok(accountService.getAccountById(id)).build();
+        String str = accountService.getAccountById(id).toString();
+        String res = StringUtils.substringBetween(str, "(", ")");
+        return Response.ok()
+                .entity(res).build();
+    }
+
+    @RolesAllowed({"ADMIN"})
+    @POST
+    @Consumes("application/json")
+    @Path("/addRecord/{id}")
+    public Response addRecord(RecordDto recordDto, @PathParam("id") Long id) {
+        recordService.createRecord(recordDto, id);
+        return Response.status(201)
+                .entity("Record added successfully !!").build();
+    }
+
+    @RolesAllowed({"PHYSICIAN"})
+    @GET
+    @Produces("application/json")
+    @Path("/getAllRecords")
+    public List<RecordDto> getAllRecords() {
+        return recordService.getAllRecords();
     }
 
     @OPTIONS

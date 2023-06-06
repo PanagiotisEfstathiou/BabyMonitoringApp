@@ -15,4 +15,5 @@ public interface AccountService {
     void deleteAccount(Long id);
 
     boolean login(AccountDto accountDto);
+
 }

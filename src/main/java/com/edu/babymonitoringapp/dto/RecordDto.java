@@ -2,22 +2,28 @@ package com.edu.babymonitoringapp.dto;
 
 import com.edu.babymonitoringapp.model.Account;
 import com.edu.babymonitoringapp.model.Record;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RecordDto {
     private double ml;
     private double duration;
-    private String date;
+    private LocalDateTime date;
 
     private Account account;
 
     public RecordDto(Record record) {
         this.ml = record.getMl();
         this.duration = record.getDuration();
-        this.date = record.getDate().toString();
+        this.date = record.getDate();
         this.account = record.getAccount();
     }
 
@@ -33,7 +39,7 @@ public class RecordDto {
         Record record = new Record();
         record.setMl(this.ml);
         record.setDuration(this.duration);
-        record.setDate(java.sql.Date.valueOf(this.date));
+        record.setDate(this.date);
         record.setAccount(this.account);
         return record;
     }

@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.UniqueElements;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "account")
 @Data
-
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
